@@ -25,12 +25,12 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
       
-       - name: Copy dacpac
-        run: |
-        cp MovieCatalog.Web/    imdbtitles_sample_azure.dacpac ${{env.  DOTNET_ROOT}}/myapp
-
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Copy dacpac
+        run: |
+        cp MovieCatalog.Web/    imdbtitles_sample_azure.dacpac ${{env.  DOTNET_ROOT}}/myapp
       
       - name: dotnet install ef
         run: dotnet tool install -g dotnet-ef
