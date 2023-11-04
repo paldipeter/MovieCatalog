@@ -1,0 +1,79 @@
+﻿@page "{Id:int?}"
+@using MovieCatalogApi.Entities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MovieCatalog.Web.Pages.TitleModel
+
+@{
+    IReadOnlyCollection<SelectListItem> genreOptions = await Model.GetGenresAsync();
+}
+
+@if (Model.SuccessMessage != null)
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+<form method="post">
+    @if (!Model.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="alert alert-warning"></div>
+    }
+
+    <div class="row">
+        <div class="col-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Title.PrimaryTitle"></label>
+                    <input asp-for="Title.PrimaryTitle" class="form-control" />
+                    <span asp-validation-for="Title.PrimaryTitle" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Title.OriginalTitle"></label>
+                    <input asp-for="Title.OriginalTitle" class="form-control" />
+                    <span asp-validation-for="Title.OriginalTitle" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <label class="col-12 text-center" asp-for="Title.TitleType"></label>
+                @foreach (var type in Enum.GetNames(typeof(TitleType)))
+                {
+                    <div class="col-3">
+                        <input class="form-check-input" type="radio" asp-for="Title.TitleType" value="@type" />@type
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <label asp-for="Title.StartYear"></label>
+                    <input asp-for="Title.StartYear" class="form-control" />
+                    <span asp-validation-for="Title.StartYear" class="text-danger"></span>
+                </div>
+                <div class="col-auto">
+                    <label asp-for="Title.EndYear"></label>
+                    <input asp-for="Title.EndYear" class="form-control" />
+                    <span asp-validation-for="Title.EndYear" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <label asp-for="Title.RuntimeMinutes"></label>
+                    <input asp-for="Title.RuntimeMinutes" class="form-control" />
+                    <span asp-validation-for="Title.RuntimeMinutes" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div>
+                <label asp-for="Genres"></label>
+                <select asp-for="SelectedGenres" multiple asp-items="Model.Genres" class="form-control" style="overflow-y: hidden" size="@genreOptions.Count"></select>
+            </div>
+        </div>
+        <input type="hidden" asp-for="Id" />
+    </div>
+
+    <hr />
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
