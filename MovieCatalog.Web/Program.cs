@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<MovieCatalogDbContext>(options =>
 {
-    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Z7071O");
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
 });
 
 builder.Services.AddScoped<IMovieCatalogDataService, MovieCatalogDataService>();
